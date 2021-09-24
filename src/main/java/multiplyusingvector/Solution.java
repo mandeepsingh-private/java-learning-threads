@@ -5,50 +5,55 @@ import java.util.Random;
 import java.util.Vector;
 
 public class Solution {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		long startTime = System.currentTimeMillis();
-		Vector<Multiply> calculation = new Vector<>();
+		// create input for thread 1
+		Vector<Integer> input1 = new Vector<>();
+		// create input for thread 2
+		Vector<Integer> input2 = new Vector<>();
+		// common store for storing output from both threads
 		Vector<Result> output = new Vector<>();
-		Integer numbers = 20000;
-		for (Integer i = 0; i < numbers; i++) {
-			Multiply work = new Multiply("Work", i, output);
-			calculation.add(work);
+		// how mnay numbers to multiply
+		Integer numbers = 50000;
+		// divide workload into 2 inputs
+		for (Integer i = 0; i < numbers / 2; i++) {
+			input1.add(i);
 		}
-		int n = 0;
-		while (n < numbers) {
-			Multiply work1 = calculation.get(n);
-			work1.setThreadName("thread1");
-			Thread t1 = new Thread(work1);
-			n++;
-			if (n != numbers) {
-				Multiply work2 = calculation.get(n);
-				work2.setThreadName("thread2");
-				Thread t2 = new Thread(work2);
-				t2.start();
-				n++;
-				try {
-					t1.join();
-					t2.join();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-
+		for (Integer i = numbers / 2; i < numbers; i++) {
+			input2.add(i);
 		}
+		// create 2 threads with their respective inputs
+		Multiply work1 = new Multiply("thread1", input1, output);
+		Thread t1 = new Thread(work1);
+		Multiply work2 = new Multiply("thread2", input2, output);
+		Thread t2 = new Thread(work2);
+		t1.start();
+		t2.start();
+		t2.join();
+		t1.join();
 
+		// display results
 		for (Integer i = 0; i < numbers; i++) {
-			System.out.println("Multiply 2 of : " + i + " - " + output.get(i).getThreadName() + " - "
+			System.out.println("Multiply 2 of : " + i + " - "
+					+ output.get(i).getThreadName() + " - "
 					+ output.get(i).getFactorial());
 		}
 		long endTime = System.currentTimeMillis();
-		System.out.println("Time taken: " + (endTime - startTime) + " milliseconds");
+		long runTime = (endTime - startTime);
+		System.out.println("Time taken: " + runTime + " milliseconds "
+				+ runTime / 1000 + " seconds");
 	}
 
 }
 
+/***
+ * class stores the output with thread name
+ * 
+ * @author admin
+ *
+ */
 class Result {
 	String threadName;
-
 	Integer Factorial;
 
 	public Result(String threadName, Integer factorial) {
@@ -66,8 +71,14 @@ class Result {
 
 }
 
+/***
+ * class that does the work in thread
+ * 
+ * @author admin
+ *
+ */
 class Multiply implements Runnable {
-	Integer n;
+	Vector<Integer> input;
 	Vector<Result> output;
 	private String threadName = "";
 
@@ -75,26 +86,25 @@ class Multiply implements Runnable {
 		return threadName;
 	}
 
-	public void setThreadName(String threadName) {
-		this.threadName = threadName;
-	}
-
-	public Multiply(String threadName, Integer n, Vector<Result> output) {
+	public Multiply(String threadName, Vector<Integer> input,
+			Vector<Result> output) {
 		super();
 		this.threadName = threadName;
-		this.n = n;
+		this.input = input;
 		this.output = output;
 	}
 
 	public void run() {
-		n = n * 2;
-		n = (int) Math.pow(n, 2);
-		n = n / 2;
-		n = n * 2;
-		n = (int) Math.sqrt(n);
-		BigInteger veryBig = new BigInteger(100, new Random());
-		veryBig.nextProbablePrime();
-		output.add(new Result(threadName, n));
+		for (Integer n : input) {
+			n = n * 2;
+			n = (int) Math.pow(n, 2);
+			n = n / 2;
+			n = n * 2;
+			n = (int) Math.sqrt(n);
+			BigInteger veryBig = new BigInteger(100, new Random());
+			veryBig.nextProbablePrime();
+			output.add(new Result(threadName, n));
+		}
 
 	}
 }

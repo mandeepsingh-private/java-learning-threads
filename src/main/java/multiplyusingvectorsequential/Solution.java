@@ -9,7 +9,7 @@ public class Solution {
 		long startTime = System.currentTimeMillis();
 		Vector<Multiply> calculation = new Vector<>();
 		Vector<Result> output = new Vector<>();
-		Integer numbers = 25000;
+		Integer numbers = 50000;
 		for (Integer i = 0; i < numbers; i++) {
 			Multiply work = new Multiply("Work", i, output);
 			calculation.add(work);
@@ -23,11 +23,14 @@ public class Solution {
 		}
 
 		for (Integer i = 0; i < numbers; i++) {
-			System.out.println("Multiply 2 of : " + i + " - " + output.get(i).getThreadName() + " - "
+			System.out.println("Multiply 2 of : " + i + " - "
+					+ output.get(i).getThreadName() + " - "
 					+ output.get(i).getFactorial());
 		}
 		long endTime = System.currentTimeMillis();
-		System.out.println("Time taken: " + (endTime - startTime) + " milliseconds");
+		long runTime = (endTime - startTime);
+		System.out.println("Time taken: " + runTime + " milliseconds "
+				+ runTime / 1000 + " seconds");
 	}
 
 }
