@@ -1,4 +1,4 @@
-package factorialusingvectors;
+package factorial_usingvectors;
 
 import java.util.Vector;
 
