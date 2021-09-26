@@ -1,6 +1,6 @@
 package factorial_executorpool;
 
-public class Result {
+public class Result implements Comparable<Result> {
 	long n;
 	long Factorial;
 
@@ -17,4 +17,8 @@ public class Result {
 		return Factorial;
 	}
 
+	@Override
+	public int compareTo(Result o) {
+		return Long.compare(this.n, o.n);
+	}
 }
