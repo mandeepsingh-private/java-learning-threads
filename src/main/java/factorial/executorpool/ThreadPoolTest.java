@@ -1,4 +1,4 @@
-package factorial_executorpool;
+package factorial.executorpool;
 
 import java.util.Collections;
 import java.util.Vector;

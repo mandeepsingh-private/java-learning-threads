@@ -1,4 +1,4 @@
-package fibonacci_consumerproducer;
+package fibonacci.consumerproducer;
 
 import java.util.concurrent.ArrayBlockingQueue;
 

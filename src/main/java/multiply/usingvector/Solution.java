@@ -1,4 +1,4 @@
-package multiply_usingvector;
+package multiply.usingvector;
 
 import java.math.BigInteger;
 import java.util.Random;

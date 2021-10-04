@@ -1,4 +1,4 @@
-package factorial_executorpool;
+package factorial.executorpool;
 
 public class Result implements Comparable<Result> {
 	long n;
