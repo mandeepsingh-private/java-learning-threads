@@ -3,6 +3,8 @@ package synchronization.Solution;
 public class Demo {
 	static int counter = 0;
 
+	// 3 threads try to increment this counter or access common variable and
+	// thus able to give correct results using synchronization
 	// synchronized does class level locking
 	public static synchronized void increment() {
 		counter++;

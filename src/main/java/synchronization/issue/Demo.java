@@ -1,7 +1,8 @@
 package synchronization.issue;
 
 public class Demo {
-	// 3 threads try to increment this counter
+	// 3 threads try to increment this counter or access common variable and
+	// thus not able to give correct results
 	static int counter = 0;
 
 	public static void process() {
